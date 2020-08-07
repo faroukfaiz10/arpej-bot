@@ -11,22 +11,13 @@ const urls = [
 app.set("views", "./views");
 app.set("view engine", "pug");
 
-const formatData = (data) => {
-  formattedData = data;
-  formattedData.forEach((residence) => {
-    residence.available = residence.available ? "Libre" : "Occupée";
-  });
-  console.log(formattedData);
-  return formattedData;
-};
-
 app.get("/", async (req, res) => {
   let promises = [];
   urls.forEach((url) => {
     promises.push(fetchUrl(url));
   });
   let data = await Promise.all(promises);
-  res.render("index", (residences = formatData(data)));
+  res.render("index", (residences = data));
 });
 
 app.listen(port, () => {
