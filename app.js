@@ -1,13 +1,32 @@
 const express = require("express");
-const fetchURL = require("./scraper");
+const fetchUrl = require("./scraper");
 const app = express();
 const port = 3000;
 
-const url = "https://www.arpej.fr/en/residences/residence-millenium/";
+const urls = [
+  "https://www.arpej.fr/en/residences/residence-millenium/",
+  "https://www.arpej.fr/residences/residence-jean-zay/",
+];
+
+app.set("views", "./views");
+app.set("view engine", "pug");
+
+const formatData = (data) => {
+  formattedData = data;
+  formattedData.forEach((residence) => {
+    residence.available = residence.available ? "Libre" : "Occupée";
+  });
+  console.log(formattedData);
+  return formattedData;
+};
 
 app.get("/", async (req, res) => {
-  const text = await fetchURL(url);
-  res.send(text);
+  let promises = [];
+  urls.forEach((url) => {
+    promises.push(fetchUrl(url));
+  });
+  let data = await Promise.all(promises);
+  res.render("index", (residences = formatData(data)));
 });
 
 app.listen(port, () => {
