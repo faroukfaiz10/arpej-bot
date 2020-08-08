@@ -20,6 +20,6 @@ app.get("/", async (req, res) => {
   res.render("index", (residences = data));
 });
 
-app.listen(process.env.PORT || port, () => {
+app.listen(port, () => {
   console.log(`App listening ...`);
 });
