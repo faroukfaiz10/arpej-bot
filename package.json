@@ -1,21 +1,15 @@
 {
-  "name": "arpej-scrapper",
+  "name": "arpej_bot",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js & node messenger_bot/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "cheerio": "^1.0.0-rc.3",
-    "express": "^4.17.1",
-    "nodemon": "^2.0.4",
-    "pug": "^3.0.0",
-    "puppeteer": "^5.2.1"
+    "express": "^4.17.1"
   }
 }
