@@ -11,7 +11,8 @@ const fetchUrl = async (url) => {
   const newUrl = $("iframe", result.data)["1"].attribs.src;
 
   // The content of the page is dynamically generated
-  const browser = await puppeteer.launch();
+  // Launch in no sandbox mode for heroku deployment
+  const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
   const page = await browser.newPage();
   await page.goto(newUrl);
   await page.waitFor(1000);
