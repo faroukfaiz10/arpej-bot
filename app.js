@@ -20,6 +20,6 @@ app.get("/", async (req, res) => {
   res.render("index", (residences = data));
 });
 
-app.listen(port, () => {
+app.listen(443, () => {
   console.log(`App listening ...`);
 });
