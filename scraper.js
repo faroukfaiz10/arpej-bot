@@ -17,7 +17,7 @@ const fetchUrl = async (url) => {
   await page.goto(newUrl);
   await page.waitFor(1000);
   const content = await page.content();
-  const isAvailable = $(".iFrame__firstLine-right-button", content).hasClass(
+  const isAvailable = !$(".iFrame__firstLine-right-button", content).hasClass(
     "disabled"
   );
   await browser.close();

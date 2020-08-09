@@ -8,7 +8,15 @@ require("dotenv").config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const urls = [
   "https://www.arpej.fr/en/residences/residence-millenium/",
-  "https://www.arpej.fr/residences/residence-jean-zay/",
+  "https://www.arpej.fr/residences/residence-millenium-2/",
+  "https://www.arpej.fr/residences/residence-victor-guerreau/",
+  "https://www.arpej.fr/residences/residence-campuseo/",
+  "https://www.arpej.fr/residences/residence-campuseo-2/",
+  "https://www.arpej.fr/residences/residence-eugene-chevreul/",
+  "https://www.arpej.fr/residences/residence-edgar-faure/",
+  "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-etudiants/",
+  "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-jeunes-actifs/",
+  "https://www.arpej.fr/residences/residence-porte-ditalie/",
 ];
 
 app.listen(process.env.PORT || 1337, () => {
@@ -27,39 +35,40 @@ async function getData(urls) {
 async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
-    let availability = residence.available ? "Libre" : "Complete";
-    text += residence.name + ": " + availability + " \n ";
+    text += residence.available ? residence.name + "\n" : "";
   });
   return text;
 }
 
 async function sendMessage() {
-  const data = await getData(urls);
-  const response = { text: await formatData(data) };
-  console.log(data);
-  console.log(response);
-  const request_body = {
-    recipient: {
-      id: "3473663869365186",
-    },
-    message: response,
-  };
+  const data = await formatData(await getData(urls));
+  if (data) {
+    const response = { text: data };
+    console.log(data);
+    console.log(response);
+    const request_body = {
+      recipient: {
+        id: "3473663869365186",
+      },
+      message: response,
+    };
 
-  request(
-    {
-      uri: "https://graph.facebook.com/v2.6/me/messages",
-      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-      method: "POST",
-      json: request_body,
-    },
-    (err, res, body) => {
-      if (!err) {
-        console.log("message sent!");
-      } else {
-        console.error("Unable to send message:" + err);
+    request(
+      {
+        uri: "https://graph.facebook.com/v2.6/me/messages",
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: request_body,
+      },
+      (err, res, body) => {
+        if (!err) {
+          console.log("message sent!");
+        } else {
+          console.error("Unable to send message:" + err);
+        }
       }
-    }
-  );
+    );
+  }
 }
 
 setInterval(sendMessage, 1000 * 60);
