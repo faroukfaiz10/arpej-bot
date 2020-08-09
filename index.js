@@ -27,14 +27,15 @@ async function getData(urls) {
 async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
-    text += residence.name + ": " + residence.availability + " \n ";
+    let availability = residence.availability ? "Libre" : "Complete";
+    text += residence.name + ": " + availability + " \n ";
   });
   return text;
 }
 
 async function sendMessage() {
   const data = await getData(urls);
-  const response = formatData(data);
+  const response = await formatData(data);
   console.log(data);
   console.log(response);
   const request_body = {
