@@ -35,6 +35,7 @@ async function getData(urls) {
 async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
+    if (residence.available) console.log(" ** " + residence.name);
     text += residence.available ? residence.name + "\n" : "";
   });
   return text;
@@ -42,6 +43,7 @@ async function formatData(data) {
 
 async function sendMessage() {
   const data = await formatData(await getData(urls));
+  console.log(data);
   if (data) {
     const response = { text: data };
     console.log(data);
