@@ -1,11 +1,42 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express().use(bodyParser.json());
+const request = require("request");
+
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
   console.log(process.env.PORT || 1337);
 });
+
+function sendMessage() {
+  const response = {
+    text: "Test from the other side",
+  };
+  const request_body = {
+    recipient: {
+      id: "3473663869365186",
+    },
+    message: response,
+  };
+
+  request(
+    {
+      uri: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }
+  );
+}
 
 app.post("/webhook", (req, res) => {
   let body = req.body;
@@ -18,6 +49,8 @@ app.post("/webhook", (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
+
+      sendMessage();
     });
 
     // Returns a '200 OK' response to all requests
