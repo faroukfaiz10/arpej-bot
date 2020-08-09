@@ -9,6 +9,8 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const urls = [
   "https://www.arpej.fr/en/residences/residence-millenium/",
   "https://www.arpej.fr/residences/residence-millenium-2/",
+];
+/*
   "https://www.arpej.fr/residences/residence-victor-guerreau/",
   "https://www.arpej.fr/residences/residence-campuseo/",
   "https://www.arpej.fr/residences/residence-campuseo-2/",
@@ -17,7 +19,7 @@ const urls = [
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-etudiants/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-jeunes-actifs/",
   "https://www.arpej.fr/residences/residence-porte-ditalie/",
-];
+];*/
 
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
@@ -54,23 +56,29 @@ async function sendMessage() {
       },
       message: response,
     };
-
-    request(
-      {
-        uri: "https://graph.facebook.com/v2.6/me/messages",
-        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: request_body,
+  } else {
+    const request_body = {
+      recipient: {
+        id: "3473663869365186",
       },
-      (err, res, body) => {
-        if (!err) {
-          console.log("message sent!");
-        } else {
-          console.error("Unable to send message:" + err);
-        }
-      }
-    );
+      message: { text: "nothing to show" },
+    };
   }
+  request(
+    {
+      uri: "https://graph.facebook.com/v2.6/me/messages",
+      qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      method: "POST",
+      json: request_body,
+    },
+    (err, res, body) => {
+      if (!err) {
+        console.log("message sent!");
+      } else {
+        console.error("Unable to send message:" + err);
+      }
+    }
+  );
 }
 
 setInterval(sendMessage, 1000 * 60);
