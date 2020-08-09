@@ -9,12 +9,12 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const urls = [
   "https://www.arpej.fr/en/residences/residence-millenium/",
   "https://www.arpej.fr/residences/residence-millenium-2/",
-];
-/*
   "https://www.arpej.fr/residences/residence-victor-guerreau/",
   "https://www.arpej.fr/residences/residence-campuseo/",
   "https://www.arpej.fr/residences/residence-campuseo-2/",
   "https://www.arpej.fr/residences/residence-eugene-chevreul/",
+];
+/*
   "https://www.arpej.fr/residences/residence-edgar-faure/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-etudiants/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-jeunes-actifs/",
