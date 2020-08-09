@@ -28,7 +28,7 @@ async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
     let availability = residence.available ? "Libre" : "Complete";
-    text += residence.name + ": " + availability; //+ " \n ";
+    text += residence.name + ": " + availability + " \n ";
   });
   return text;
 }
@@ -61,6 +61,8 @@ async function sendMessage() {
     }
   );
 }
+
+setInterval(sendMessage, 1000 * 60);
 
 app.post("/webhook", (req, res) => {
   let body = req.body;
