@@ -35,14 +35,14 @@ async function formatData(data) {
 
 async function sendMessage() {
   const data = await getData(urls);
-  const response = await formatData(data);
+  const response = { text: await formatData(data) };
   console.log(data);
   console.log(response);
   const request_body = {
     recipient: {
       id: "3473663869365186",
     },
-    message: "response",
+    message: response,
   };
 
   request(
