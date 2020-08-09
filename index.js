@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const fetchUrl = require("./scraper");
 const app = express().use(bodyParser.json());
 const request = require("request");
 require("dotenv").config();
