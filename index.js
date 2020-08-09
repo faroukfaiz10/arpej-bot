@@ -43,27 +43,32 @@ async function formatData(data) {
   return text;
 }
 
-async function sendMessage() {
-  const data = await formatData(await getData(urls));
-  console.log(data);
+async function makeRequest(data) {
   if (data) {
     const response = { text: data };
     console.log(data);
     console.log(response);
-    const request_body = {
+    return (request_body = {
       recipient: {
         id: "3473663869365186",
       },
       message: response,
-    };
+    });
   } else {
-    const request_body = {
+    return (request_body = {
       recipient: {
         id: "3473663869365186",
       },
       message: { text: "nothing to show" },
-    };
+    });
   }
+}
+
+async function sendMessage() {
+  const data = await formatData(await getData(urls));
+  console.log(data);
+  const request_body = await makeRequest(data);
+  console.log(request_body);
   request(
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
