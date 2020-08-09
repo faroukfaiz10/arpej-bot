@@ -5,17 +5,38 @@ const request = require("request");
 require("dotenv").config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-console.log(PAGE_ACCESS_TOKEN);
+const urls = [
+  "https://www.arpej.fr/en/residences/residence-millenium/",
+  "https://www.arpej.fr/residences/residence-jean-zay/",
+];
 
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
   console.log(process.env.PORT || 1337);
 });
 
+async function getData(urls) {
+  let promises = [];
+  urls.forEach((url) => {
+    promises.push(fetchUrl(url));
+  });
+  return await Promise.all(promises);
+}
+
+async function formatData(data) {
+  let text = "";
+  data.forEach((residence) => {
+    text += residence.name + ": " + residence.availability + " \n ";
+  });
+  return text;
+}
+
+
 function sendMessage() {
-  const response = {
-    text: "Test from the other side",
-  };
+  const data = await getData(urls);
+  const response = formatData(data);
+  console.log(data);
+  console.log(response);
   const request_body = {
     recipient: {
       id: "3473663869365186",
