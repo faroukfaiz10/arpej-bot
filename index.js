@@ -31,8 +31,7 @@ async function formatData(data) {
   return text;
 }
 
-
-function sendMessage() {
+async function sendMessage() {
   const data = await getData(urls);
   const response = formatData(data);
   console.log(data);
