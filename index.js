@@ -2,8 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express().use(bodyParser.json());
 const request = require("request");
+require("dotenv").config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+console.log(PAGE_ACCESS_TOKEN);
 
 app.listen(process.env.PORT || 1337, () => {
   console.log("webhook is listening");
