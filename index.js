@@ -27,8 +27,8 @@ async function getData(urls) {
 async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
-    let availability = residence.availability ? "Libre" : "Complete";
-    text += residence.name + ": " + availability + " \n ";
+    let availability = residence.available ? "Libre" : "Complete";
+    text += residence.name + ": " + availability; //+ " \n ";
   });
   return text;
 }
