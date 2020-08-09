@@ -42,7 +42,7 @@ async function sendMessage() {
     recipient: {
       id: "3473663869365186",
     },
-    message: response,
+    message: "response",
   };
 
   request(
