@@ -31,7 +31,12 @@ async function getData(urls) {
   urls.forEach((url) => {
     promises.push(fetchUrl(url));
   });
-  return await Promise.all(promises);
+  try {
+    const data = await Promise.all(promises);
+  } catch (e) {
+    console.error(e);
+  }
+  return data;
 }
 
 async function formatData(data) {
@@ -65,9 +70,17 @@ async function makeRequest(data) {
 }
 
 async function sendMessage() {
-  const data = await formatData(await getData(urls));
+  try {
+    const data = await formatData(await getData(urls));
+  } catch (e) {
+    console.error(e);
+  }
   console.log(data);
-  const request_body = await makeRequest(data);
+  try {
+    const request_body = await makeRequest(data);
+  } catch (e) {
+    console.error(e);
+  }
   console.log(request_body);
   request(
     {
