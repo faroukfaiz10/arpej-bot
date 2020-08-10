@@ -12,7 +12,9 @@ const fetchUrl = async (url) => {
 
   // The content of the page is dynamically generated
   // Launch in no sandbox mode for heroku deployment
-  const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+  const browser = await puppeteer.launch({
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
   const page = await browser.newPage();
   await page.goto(newUrl);
   await page.waitFor(1000);
