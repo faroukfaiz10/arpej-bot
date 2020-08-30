@@ -13,7 +13,6 @@ const urls = [
   "https://www.arpej.fr/residences/residence-campuseo/",
   "https://www.arpej.fr/residences/residence-campuseo-2/",
   "https://www.arpej.fr/residences/residence-eugene-chevreul/",
-  "https://www.arpej.fr/residences/residence-edgar-faure/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-etudiants/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-jeunes-actifs/",
   "https://www.arpej.fr/residences/residence-porte-ditalie/",
@@ -35,7 +34,6 @@ async function getData(urls) {
 async function formatData(data) {
   let text = "";
   data.forEach((residence) => {
-    if (residence.available) console.log(" ** " + residence.name);
     text += residence.available ? residence.name + "\n" : "";
   });
   return text;
@@ -88,7 +86,7 @@ async function sendMessage() {
   }
 }
 
-setInterval(sendMessage, 1000 * 60 * 2);
+setInterval(sendMessage, 1000 * 60 * 30);
 
 app.post("/webhook", (req, res) => {
   let body = req.body;
