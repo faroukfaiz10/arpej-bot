@@ -36,7 +36,7 @@ async function formatData(data) {
   data.forEach((residence) => {
     text += residence.available ? residence.name + "\n" : "";
   });
-  return text | "Nothing available";
+  return text || "Nothing available";
 }
 
 async function makeRequest(data) {
