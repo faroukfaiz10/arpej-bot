@@ -13,15 +13,17 @@ const fetchUrl = async (url) => {
   // The content of the page is dynamically generated
   // Launch in no sandbox mode for heroku deployment
   const browser = await puppeteer.launch({
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    args: ["--no-sandbox"], //, "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
-  await page.goto(newUrl);
-  await page.waitFor(1000);
+  await page.goto(newUrl, { waitUntil: "networkidle0" });
+  // await page.waitFor(1000);
   const content = await page.content();
-  const isAvailable = !$(".iFrame__firstLine-right-button", content).hasClass(
-    "disabled"
-  );
+  const isAvailable = !(await page.evaluate(() => {
+    return document
+      .querySelector(".iFrame__firstLine-right-button")
+      ._prevClass.includes("disabled");
+  }));
   await browser.close();
   //return [name, isAvailable];
   return { name: name, available: isAvailable };
