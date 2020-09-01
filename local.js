@@ -7,7 +7,7 @@ require("dotenv").config();
 const urls = [
   "https://www.arpej.fr/en/residences/residence-millenium/",
   // "https://www.arpej.fr/residences/residence-millenium-2/",
-  "https: //www.arpej.fr/residences/residence-de-la-cerisaie/",
+  "https://www.arpej.fr/residences/residence-de-la-cerisaie/",
   "https://www.arpej.fr/residences/residence-victor-guerreau/",
   "https://www.arpej.fr/residences/residence-campuseo/",
   "https://www.arpej.fr/residences/residence-berthelot/",
@@ -49,6 +49,8 @@ async function logData() {
     console.error(err);
   }
 }
+
+logData();
 
 setInterval(async () => {
   try {
