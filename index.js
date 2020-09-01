@@ -15,12 +15,10 @@ const urls = [
   "https://www.arpej.fr/residences/residence-eugene-chevreul/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-etudiants/",
   "https://www.arpej.fr/residences/residence-alexandre-manceau-partie-pour-jeunes-actifs/",
-  "https://www.arpej.fr/residences/residence-porte-ditalie/",
 ];
 
 app.listen(process.env.PORT || 1337, () => {
-  console.log("webhook is listening");
-  console.log(process.env.PORT || 1337);
+  console.log(`webhook is listening on port ${process.env.PORT || 1337}`);
 });
 
 async function getData(urls) {
@@ -36,7 +34,7 @@ async function formatData(data) {
   data.forEach((residence) => {
     text += residence.available ? residence.name + "\n" : "";
   });
-  return text | "Nothing available";
+  return text || "Nothing available";
 }
 
 async function makeRequest(data) {
@@ -86,7 +84,10 @@ async function sendMessage() {
   }
 }
 
-setInterval(sendMessage, 1000 * 60 * 30);
+setInterval(() => {
+  console.log("Sending message ...");
+  sendMessage;
+}, 1000 * 60);
 
 app.post("/webhook", (req, res) => {
   let body = req.body;
