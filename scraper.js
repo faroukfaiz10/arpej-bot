@@ -2,31 +2,24 @@ const $ = require("cheerio");
 const axios = require("axios");
 const puppeteer = require("puppeteer");
 
-const fetchUrl = async (url) => {
-  const result = await axios.get(url);
-
-  const name = $("div.top > h1", result.data)["0"].children[0].data;
-
-  // Get new url for frame containing availability
-  const newUrl = $("iframe", result.data)["1"].attribs.src;
-
-  // The content of the page is dynamically generated
-  // Launch in no sandbox mode for heroku deployment
-  const browser = await puppeteer.launch({
-    args: ["--no-sandbox"], //, "--disable-setuid-sandbox"],
-  });
+const fetchData = async (urls) => {
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto(newUrl, { waitUntil: "networkidle0" });
-  // await page.waitFor(1000);
-  const content = await page.content();
-  const isAvailable = !(await page.evaluate(() => {
-    return document
-      .querySelector(".iFrame__firstLine-right-button")
-      ._prevClass.includes("disabled");
-  }));
+  let result = [];
+  for (url of urls) {
+    const content = await axios.get(url);
+    const name = $("div.top > h1", content.data)["0"].children[0].data;
+    const newUrl = $("iframe", content.data)["1"].attribs.src;
+    await page.goto(newUrl, { waitUntil: "networkidle0" });
+    const isAvailable = !(await page.evaluate(() => {
+      return document
+        .querySelector(".iFrame__firstLine-right-button")
+        ._prevClass.includes("disabled");
+    }));
+    result.push({ name: name, available: isAvailable });
+  }
   await browser.close();
-  //return [name, isAvailable];
-  return { name: name, available: isAvailable };
+  return result;
 };
 
-module.exports = fetchUrl;
+module.exports = fetchData;
